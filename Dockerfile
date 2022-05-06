@@ -1,4 +1,4 @@
-FROM --platform=linux/arm64/v8 openjdk:17.0-jdk
+FROM openjdk:17.0-jdk
 
 RUN microdnf install curl
 
