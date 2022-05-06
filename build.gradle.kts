@@ -7,6 +7,7 @@ plugins {
     kotlin("plugin.spring") version "1.6.21"
 
     id("org.sonarqube") version "3.3"
+    id("com.palantir.docker") version "0.33.0"
 }
 
 group = "de.adesso"
@@ -27,7 +28,6 @@ dependencies {
 
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
-
     // Spring Boot Admin
     implementation("de.codecentric:spring-boot-admin-starter-client:2.6.0")
     implementation("de.codecentric:spring-boot-admin-starter-server:2.6.0")
@@ -35,9 +35,20 @@ dependencies {
     // SpringDoc / Swagger
     implementation("org.springdoc:springdoc-openapi-ui:1.6.7")
 
+    // Actuator / Prometheus
+    implementation("io.micrometer:micrometer-registry-prometheus")
+    implementation ("org.springframework.boot:spring-boot-starter-actuator")
+
     //Dependency, so it runs flawless on my M1 Mac
     implementation("io.netty:netty-all:4.1.68.Final")
 }
+
+docker {
+    name = "${project.name}:${project.version}"
+    copySpec.from("build/libs").into("build/libs")
+}
+
+
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
