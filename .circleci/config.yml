@@ -1,2 +1,44 @@
 version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:17.0.1-jdk-buster
 
+    working_directory: ~/kotlin-showcase
+
+    steps:
+      - checkout
+
+      - run:
+          name: Login to DockerHub
+          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      
+
+      - restore_cache:
+          keys:
+          - kotlin-showcase-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+      - restore_cache:
+          keys:
+          - kotlin-showcase-{{ checksum "build.gradle" }}
+
+      - save_cache:
+          paths:
+            - ~/.gradle/caches
+          key: kotlin-showcase-{{ checksum "build.gradle" }}
+      - save_cache:
+          paths:
+            - ~/.gradle/wrapper
+          key: kotlin-showcase-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}  
+
+      - run: 
+          name: Install dependencies
+          command: ./gradlew build
+      
+      - run:
+          name: Build and publish image to docker
+          command: ./gradlew dockerPush
+
+      - store_artifacts:
+          path: build/libs
+          destination: kotlin-showcase
+      
