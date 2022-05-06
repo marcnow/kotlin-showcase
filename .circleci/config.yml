@@ -19,12 +19,12 @@ jobs:
           - kotlin-showcase-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
       - restore_cache:
           keys:
-          - kotlin-showcase-{{ checksum "build.gradle" }}
+          - kotlin-showcase-{{ checksum "build.gradle.kts" }}
 
       - save_cache:
           paths:
             - ~/.gradle/caches
-          key: kotlin-showcase-{{ checksum "build.gradle" }}
+          key: kotlin-showcase-{{ checksum "build.gradle.kts" }}
       - save_cache:
           paths:
             - ~/.gradle/wrapper
