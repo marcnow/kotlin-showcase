@@ -33,10 +33,14 @@ jobs:
       - run: 
           name: Install dependencies
           command: ./gradlew build
-      
+
+      - run:
+          name: Tag image
+          command: ./gradlew dockerTagDockerHub
+
       - run:
           name: Build and publish image to docker
-          command: ./gradlew dockerPush
+          command: ./gradlew dockerPushDockerHub
 
       - store_artifacts:
           path: build/libs

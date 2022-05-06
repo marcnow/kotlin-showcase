@@ -46,6 +46,7 @@ dependencies {
 docker {
     name = "${project.name}:${project.version}"
     copySpec.from("build/libs").into("build/libs")
+    tag("DockerHub", "marcnow/kotlin-showcase:${project.version}")
 }
 
 
