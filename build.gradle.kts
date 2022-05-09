@@ -42,6 +42,13 @@ dependencies {
     // REST Assured
     testImplementation("io.rest-assured:rest-assured:4.4.0")
 
+    // MockK
+    testImplementation("io.mockk:mockk:1.12.3")
+
+    // Cucumber
+    testImplementation("io.cucumber:cucumber-java:7.3.1")
+    testImplementation("io.cucumber:cucumber-junit:7.3.1")
+
     // Spring Boot Admin
     implementation("de.codecentric:spring-boot-admin-starter-client:2.6.0")
     implementation("de.codecentric:spring-boot-admin-starter-server:2.6.0")
