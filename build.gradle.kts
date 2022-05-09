@@ -8,6 +8,8 @@ plugins {
 
     id("org.sonarqube") version "3.3"
     id("com.palantir.docker") version "0.33.0"
+
+    jacoco
 }
 
 group = "de.adesso"
@@ -25,6 +27,11 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
+    // Kotest
+    testImplementation("io.kotest:kotest-runner-junit5:5.1.0")
+    testImplementation("io.kotest:kotest-assertions-core:5.1.0")
+    testImplementation("io.kotest:kotest-property:5.1.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
 
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
@@ -49,7 +56,9 @@ docker {
     tag("DockerHub", "marcnow/kotlin-showcase:${project.version}")
 }
 
-
+jacoco {
+    toolVersion = "0.8.7"
+}
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
@@ -60,4 +69,12 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.isEnabled = true
+    }
 }

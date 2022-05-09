@@ -3,7 +3,6 @@ package de.adesso.kotlinshowcase.controller
 import de.adesso.kotlinshowcase.controller.dto.GreetDTO
 import de.adesso.kotlinshowcase.controller.dto.GreetingDTO
 import de.adesso.kotlinshowcase.service.GreetingService
-import de.adesso.kotlinshowcase.service.impl.GreetingServiceImpl
 import io.micrometer.core.annotation.Timed
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -13,13 +12,10 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import javax.validation.Valid
 
 @RestController
 @RequestMapping("api/greet")
@@ -34,11 +30,11 @@ class GreetingController(val service: GreetingService) {
     fun greet(@Parameter(description = "name") @PathVariable name: String): ResponseEntity<GreetDTO> {
         LOG.info("Greet {}", name)
 
-        var message = GreetDTO(service.getMessage(name))
+        val message = GreetDTO(service.getMessage(name))
 
         LOG.info("{}", message)
 
-        return ResponseEntity.status(HttpStatus.OK).body(message);
+        return ResponseEntity.status(HttpStatus.OK).body(message)
     }
 
     @GetMapping
@@ -52,7 +48,7 @@ class GreetingController(val service: GreetingService) {
     fun getGreeting(): ResponseEntity<GreetingDTO> {
         LOG.info("Get greeting")
 
-        var greeting = GreetingDTO(service.getGreeting())
+        val greeting = GreetingDTO(service.getGreeting())
 
         LOG.info("{}", greeting)
 
@@ -68,7 +64,6 @@ class GreetingController(val service: GreetingService) {
         ApiResponse(responseCode = "204", description = "Greeting updated"),
         ApiResponse(responseCode = "404", description = "Invalid 'greeting' request")])
     fun updateGreeting(@org.springframework.web.bind.annotation.RequestBody greeting: GreetingDTO): ResponseEntity<HttpStatus> {
-        var test = greeting
         LOG.info("Set greeting to {}", greeting.greeting)
 
         service.updateMessage(greeting.greeting)

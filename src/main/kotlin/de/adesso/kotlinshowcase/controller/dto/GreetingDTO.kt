@@ -1,4 +1,4 @@
 package de.adesso.kotlinshowcase.controller.dto
 
 
-data class GreetingDTO(val greeting: String)
+data class GreetingDTO(var greeting: String)
