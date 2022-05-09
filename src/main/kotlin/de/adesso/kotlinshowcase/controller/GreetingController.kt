@@ -55,7 +55,7 @@ class GreetingController(val service: GreetingService) {
         return ResponseEntity.status(HttpStatus.OK).body(greeting)
     }
 
-    @PutMapping(consumes = ["application/json"])
+    @PutMapping("/greeting")
     @Operation(operationId = "updateGreeting", description = "Update greeting")
     @RequestBody(description = "greeting", required = true, content = [Content(
         mediaType = MediaType.APPLICATION_JSON_VALUE,
